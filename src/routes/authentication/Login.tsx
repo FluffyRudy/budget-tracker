@@ -25,7 +25,7 @@ export default function Login() {
           const info: LoginInfo = { email, password };
           const user = await DataStorage.getUserData(info);
           const isLoggedIn = await Authetication.isUserLoggedIn(info);
-          if (isLoggedIn) {
+          if (isLoggedIn && user && password === user.password) {
             userState.setAuthentication(true);
             if (user !== null) DataStorage.setCurrentUser(user);
             navigate("/");
