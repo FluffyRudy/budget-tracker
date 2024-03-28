@@ -8,6 +8,22 @@
       padding: 1vmax 0;
       box-sizing: border-box;
   }
+
+  .nav-link {
+    padding: 1vmax 1vmin;
+    border-radius: 1vmax;
+  }
+
+  .budget-summery-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  .budget-summery {
+    background-color: rgba(0, 0, 0, 0.3);
+    height: 100px;
+  }
 }
 
 :root {
@@ -27,7 +43,7 @@
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: #d3d3d6;
   text-decoration: inherit;
 }
 a:hover {

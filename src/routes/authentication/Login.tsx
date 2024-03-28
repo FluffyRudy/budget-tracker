@@ -23,9 +23,11 @@ export default function Login() {
       <Form
         onSubmit={async () => {
           const info: LoginInfo = { email, password };
+          const user = await DataStorage.getUserData(info);
           const isLoggedIn = await Authetication.isUserLoggedIn(info);
           if (isLoggedIn) {
             userState.setAuthentication(true);
+            if (user !== null) DataStorage.setCurrentUser(user);
             navigate("/");
           } else {
             setErrorMessgae("Couldnt find user");

@@ -61,11 +61,16 @@ export default function Register() {
             pattern='.{5,}'
           />
         </label>
-        <button>Register</button>
+        <button className='text-[1.5em]'>Register</button>
       </Form>
       <div className='w-[min(400px,100vw)] mt-5'>
         <h2>
-          Account already registered? <Link to='/login'>Sign In</Link>
+          Account already registered?{" "}
+          <Link
+            className='text-white text-[1.2em]'
+            to='/login'>
+            Sign In
+          </Link>
         </h2>
       </div>
     </div>
