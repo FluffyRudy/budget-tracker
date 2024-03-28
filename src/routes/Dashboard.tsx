@@ -11,7 +11,7 @@ export default function Dashboard() {
       <Header />
       <div className='mt-5'>
         <h2 className='font-extrabold font-sans w-[80vw] m-auto text-2xl text-red-300'>
-          Hello {UserState.getState().name} 👽
+          Hello {userState.name} 👽
         </h2>
         <BudgetSummery />
         <div>
