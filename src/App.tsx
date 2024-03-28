@@ -1,9 +1,13 @@
 import "./App.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { useEffect } from "react";
+import { DataStorage } from "./ultils/DataStorage";
 import Dashboard from "./routes/Dashboard";
 import RouterProtector from "./routes/RouterProtector";
 import Login from "./routes/authentication/Login";
 import Register from "./routes/authentication/Register";
+import ErrorPage from "./components/ErrorPage";
+import { UserState } from "./states/User";
 
 const router = createBrowserRouter([
   {
@@ -22,9 +26,19 @@ const router = createBrowserRouter([
     path: "/register",
     element: <Register />,
   },
+  {
+    path: "*",
+    element: <ErrorPage />,
+  },
 ]);
 
 function App() {
+  useEffect(() => {
+    const currentUser = DataStorage.getCurrentUser();
+    if (currentUser) {
+      UserState.setState(currentUser);
+    }
+  }, []);
   return <RouterProvider router={router} />;
 }
 

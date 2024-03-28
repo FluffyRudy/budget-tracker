@@ -3,6 +3,7 @@ export interface Info {
   name: string;
   email: string;
   password: string;
+  isAuthenticated: boolean;
   userData: Array<Record<string, string>>;
 }
 
@@ -12,7 +13,7 @@ export interface LoginInfo {
 }
 
 export interface User extends Info {
-  isAuthenticated: boolean;
   set: (info: Info) => void;
   setAuthentication: (value: boolean) => void;
+  reset: () => void;
 }

@@ -1,16 +1,27 @@
 import { create } from "zustand";
 import { User, Info } from "../types/user";
 
-const UserState = create<User>()((set) => ({
+const initialData = {
   id: "",
   name: "",
   email: "",
   password: "",
   isAuthenticated: false,
   userData: [],
+};
+
+const UserState = create<User>()((set) => ({
+  ...initialData,
+
   set: (info: Info) => set(() => info),
+
   setAuthentication: (value: boolean) =>
     set((prevState) => ({ ...prevState, isAuthenticated: value })),
+
+  reset: () =>
+    set(() => ({
+      ...initialData,
+    })),
 }));
 
 export { UserState };

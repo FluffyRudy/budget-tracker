@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Form } from "react-router-dom";
+import { Form, Link } from "react-router-dom";
 import { Info } from "../../types/user";
 import { DataStorage } from "../../ultils/DataStorage";
 import { HashContent } from "../../ultils/hashlib";
@@ -16,19 +16,21 @@ export default function Register() {
       email: email,
       password: password,
       userData: [],
+      isAuthenticated: true,
     };
     DataStorage.addLoginData(info);
   }
 
   return (
-    <div>
+    <div className='m-auto w-[min(500px,100vw)] h-[100vh] flex flex-col justify-center items-center'>
       <Form
         onSubmit={handleUserRegister}
         action='/login'
-        className='w-full h-full flex flex-col'>
+        className='flex flex-col gap-[2vmax]'>
         <label htmlFor='username'>
-          Username:{" "}
+          Username: <br />
           <input
+            className='login-input-button'
             type='text'
             id='username'
             value={name}
@@ -37,8 +39,9 @@ export default function Register() {
           />
         </label>
         <label htmlFor='email'>
-          Email:{" "}
+          Email: <br />
           <input
+            className='login-input-button'
             type='email'
             id='email'
             value={email}
@@ -47,8 +50,9 @@ export default function Register() {
           />
         </label>
         <label htmlFor='password'>
-          Password:{" "}
+          Password: <br />
           <input
+            className='login-input-button'
             type='text'
             id='password'
             value={password}
@@ -59,6 +63,11 @@ export default function Register() {
         </label>
         <button>Register</button>
       </Form>
+      <div className='w-[min(400px,100vw)] mt-5'>
+        <h2>
+          Account already registered? <Link to='/login'>Sign In</Link>
+        </h2>
+      </div>
     </div>
   );
 }

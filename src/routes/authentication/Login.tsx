@@ -1,9 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Form } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Authetication } from "./helper";
 import { UserState } from "../../states/User";
 import { LoginInfo } from "../../types/user";
+import { DataStorage } from "../../ultils/DataStorage";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -12,8 +13,13 @@ export default function Login() {
   const userState = UserState();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (userState.isAuthenticated) navigate("/");
+  }, [userState.isAuthenticated]);
+
   return (
-    <div>
+    <div className='m-auto w-[min(500px,100vw)] h-[100vh] flex flex-col justify-center  items-center'>
+      <h1>Login</h1>
       <Form
         onSubmit={async () => {
           const info: LoginInfo = { email, password };
@@ -25,10 +31,11 @@ export default function Login() {
             setErrorMessgae("Couldnt find user");
           }
         }}
-        className='w-full h-full flex flex-col'>
+        className='flex flex-col gap-[2vmax]'>
         <label htmlFor='email'>
-          Email:{" "}
+          Email: <br />
           <input
+            className='login-input-button'
             type='email'
             id='email'
             value={email}
@@ -37,8 +44,9 @@ export default function Login() {
           />
         </label>
         <label htmlFor='password'>
-          Password:{" "}
+          Password: <br />
           <input
+            className='login-input-button'
             type='text'
             id='password'
             value={password}
@@ -47,11 +55,19 @@ export default function Login() {
             pattern='.{5,}'
           />
         </label>
-        <button>Login</button>
+        <button className='block m-auto login-input-button font-extrabold text-[1.5em]'>
+          Login
+        </button>
       </Form>
-      <div>
-        <h2>Account not registered ?</h2>
-        <Link to='/register'>Sign Up</Link>
+      <div className='w-[min(400px,100vw)] mt-5'>
+        <h2>
+          Account not registered ?{" "}
+          <Link
+            to='/register'
+            className='font-bold text-white'>
+            Sign Up
+          </Link>
+        </h2>
       </div>
       {errorMessage.length > 0 ? <h1>{errorMessage}</h1> : null}
     </div>
