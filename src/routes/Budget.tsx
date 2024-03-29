@@ -15,9 +15,9 @@ export default function BudgetMaker() {
 
   async function handleSubmit(e: React.FormEvent): Promise<void> {
     e.preventDefault();
-    const hashedId = await HashContent(name);
-    if (budgetState.allBudgetsId.includes(hashedId)) return;
 
+    if (budgetState.allBudgetsId.includes(name)) return;
+    console.log(budgetState.allBudgetsId);
     const budget: Budget = {
       name: name,
       amount: amount,
@@ -26,7 +26,7 @@ export default function BudgetMaker() {
       recurring: recurring,
       id: await HashContent(name),
     };
-    budgetState.addBudgetId(hashedId);
+    budgetState.addBudgetId(name);
     budgetState.addBudget(budget);
     DataStorage.addUserBudgetData(budget);
   }
@@ -103,7 +103,7 @@ export default function BudgetMaker() {
               <option value='recurring'>Recurring</option>
             </select>
           </div>
-          <button>Add</button>
+          <button className='login-input-button'>Add</button>
         </Form>
       </section>
     </div>
