@@ -27,7 +27,8 @@ export default function Login() {
           const isLoggedIn = await Authetication.isUserLoggedIn(info);
           if (isLoggedIn && user && password === user.password) {
             userState.setAuthentication(true);
-            if (user !== null) DataStorage.setCurrentUser(user);
+            userState.set(user);
+            DataStorage.setCurrentUser(user);
             navigate("/");
           } else {
             setErrorMessgae("Couldnt find user");
@@ -49,7 +50,7 @@ export default function Login() {
           Password: <br />
           <input
             className='login-input-button'
-            type='text'
+            type='password'
             id='password'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -71,7 +72,9 @@ export default function Login() {
           </Link>
         </h2>
       </div>
-      {errorMessage.length > 0 ? <h1>{errorMessage}</h1> : null}
+      {errorMessage.length > 0 ? (
+        <p className='text-red-500'>{errorMessage}</p>
+      ) : null}
     </div>
   );
 }

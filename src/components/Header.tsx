@@ -28,7 +28,7 @@ export default function Header() {
             <li>
               <NavLink
                 className='nav-link'
-                to='/login'>
+                to='/budget'>
                 Budget
               </NavLink>
             </li>

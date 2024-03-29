@@ -8,6 +8,7 @@ import Login from "./routes/authentication/Login";
 import Register from "./routes/authentication/Register";
 import ErrorPage from "./components/ErrorPage";
 import { UserState } from "./states/User";
+import Budget from "./routes/Budget";
 
 const router = createBrowserRouter([
   {
@@ -17,7 +18,25 @@ const router = createBrowserRouter([
         <Dashboard />
       </RouterProtector>
     ),
+    children: [
+      {
+        path: "/budget",
+        element: (
+          <RouterProtector>
+            <Budget />
+          </RouterProtector>
+        ),
+      },
+    ],
   },
+  // {
+  //   path: "/budget",
+  //   element: (
+  //     <RouterProtector>
+  //       <Budget />
+  //     </RouterProtector>
+  //   ),
+  // },
   {
     path: "/login",
     element: <Login />,

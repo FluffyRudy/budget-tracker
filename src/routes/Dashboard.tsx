@@ -1,19 +1,15 @@
-import { Form } from "react-router-dom";
+import { Form, Outlet } from "react-router-dom";
 import { UserState } from "../states/User";
 import { DataStorage } from "../ultils/DataStorage";
-import Header from "../components/Header";
-import BudgetSummery from "../components/BudgetSummery";
+import HeaderAndSummery from "../components/HeaderAndSummery";
 
 export default function Dashboard() {
   const userState = UserState();
   return (
     <div>
-      <Header />
+      <HeaderAndSummery />
+      <Outlet />
       <div className='mt-5'>
-        <h2 className='font-extrabold font-sans w-[80vw] m-auto text-2xl text-red-300'>
-          Hello {userState.name} 👽
-        </h2>
-        <BudgetSummery />
         <div>
           <Form
             onSubmit={() => {
