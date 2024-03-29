@@ -9,6 +9,7 @@ import Register from "./routes/authentication/Register";
 import ErrorPage from "./components/ErrorPage";
 import { UserState } from "./states/User";
 import Budget from "./routes/Budget";
+import { useBudgetStore } from "./states/Budget";
 
 const router = createBrowserRouter([
   {
@@ -29,14 +30,6 @@ const router = createBrowserRouter([
       },
     ],
   },
-  // {
-  //   path: "/budget",
-  //   element: (
-  //     <RouterProtector>
-  //       <Budget />
-  //     </RouterProtector>
-  //   ),
-  // },
   {
     path: "/login",
     element: <Login />,
@@ -52,10 +45,18 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  const budgetState = useBudgetStore((state) => state);
   useEffect(() => {
     const currentUser = DataStorage.getCurrentUser();
     if (currentUser) {
       UserState.setState(currentUser);
+    }
+
+    const userBudgetData = DataStorage.getUserBudgetData();
+    if (userBudgetData) {
+      userBudgetData.map((budget) => {
+        budgetState.addBudget(budget);
+      });
     }
   }, []);
   return <RouterProvider router={router} />;

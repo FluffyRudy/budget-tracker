@@ -1,3 +1,4 @@
+import { Budget } from "../types/budget";
 import { Info, LoginInfo } from "../types/user";
 import { HashContent } from "./hashlib";
 
@@ -34,5 +35,18 @@ export class DataStorage {
   static clearCurrentUser(): void {
     const currentUser = localStorage.getItem("currentUser");
     if (currentUser) localStorage.removeItem("currentUser");
+  }
+
+  static addUserBudgetData(data: Budget) {
+    const currentUser = DataStorage.getCurrentUser();
+    if (currentUser === null) return;
+    currentUser.userData.push(data);
+    localStorage.setItem("currentUser", JSON.stringify(currentUser));
+  }
+
+  static getUserBudgetData(): Budget[] | null {
+    const currentUser = DataStorage.getCurrentUser();
+    if (currentUser) return currentUser.userData ? currentUser.userData : null;
+    return null;
   }
 }
