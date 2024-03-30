@@ -1,20 +1,20 @@
-import { useSummeryStore } from "../states/Budget";
 import { SummeryPanel } from "./SummeryPanel";
+import { useBudgetStore } from "../states/Budget";
 import React from "react";
 
 const MemoizedSummeryPanel = React.memo(SummeryPanel);
 
 export default function BudgetSummery() {
-  const { summery } = useSummeryStore();
+  const { summery } = useBudgetStore();
   return (
     <div className='budget-summery-container'>
       <MemoizedSummeryPanel
         label='Total Income'
-        value={summery.totalIncome}
+        value={summery.income}
       />
       <MemoizedSummeryPanel
         label='Total Expenses'
-        value={summery.totalExpenses}
+        value={summery.expenses}
       />
       <MemoizedSummeryPanel
         label='Balance'

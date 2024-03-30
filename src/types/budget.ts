@@ -7,8 +7,8 @@ export interface Budget {
   occurance: string;
 }
 
-export interface BudgetSummery {
-  totalIncome: number;
-  totalExpenses: number;
+export interface Summery {
+  income: number;
+  expenses: number;
   balance: number;
 }
