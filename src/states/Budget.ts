@@ -1,23 +1,48 @@
 import { create } from "zustand";
-import { Budget } from "../types/budget";
+import { Budget, Summery } from "../types/budget";
 
-type BudgetState = {
-  budgets: Budget[];
-  allBudgetsId: string[];
-  addBudget: (budget: Budget) => void;
-  removeBudget: (id: Budget["id"]) => void;
-  addBudgetId: (id: Budget["id"]) => void;
+type BudgetStore = {
+  budgets: Array<Budget>;
+  summery: Summery;
+  addBudgets: (budget: Budget) => void;
+  removeBudget: (budgetID: string) => void;
 };
 
-export const useBudgetStore = create<BudgetState>()((set) => ({
+export const useBudgetStore = create<BudgetStore>()((set) => ({
   budgets: [],
-  allBudgetsId: [],
-  addBudget: (budget: Budget) =>
-    set((state) => ({ budgets: [...state.budgets, budget] })),
-  removeBudget: (id: Budget["id"]) =>
+  summery: {
+    income: 0,
+    expenses: 0,
+    balance: 0,
+  },
+  addBudgets: (budget) =>
+    set((state) => {
+      const isDuplicate = state.budgets.some((elem) => elem.id === budget.id);
+      if (!isDuplicate) {
+        return {
+          budgets: [...state.budgets, budget],
+          summery: summeryUpdater(budget, state.summery),
+        };
+      }
+      return state;
+    }),
+  removeBudget: (budgetID) =>
     set((state) => ({
-      budgets: state.budgets.filter((budget) => budget.id != id),
+      budgets: state.budgets.filter((elem) => elem.id != budgetID),
     })),
-  addBudgetId: (id: Budget["id"]) =>
-    set((state) => ({ allBudgetsId: [...state.allBudgetsId, id] })),
 }));
+
+function summeryUpdater(budget: Budget, prevSummery: Summery) {
+  const summery: Summery = { ...prevSummery };
+  switch (budget["type"]) {
+    case "income":
+      summery.income += budget.amount;
+      summery.balance += budget.amount;
+      break;
+    case "expense":
+      summery.expenses += budget.amount;
+      summery.balance -= budget.amount;
+      break;
+  }
+  return summery;
+}

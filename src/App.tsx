@@ -45,17 +45,20 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  const { addBudgets } = useBudgetStore();
   const budgetState = useBudgetStore((state) => state);
+
   useEffect(() => {
     const currentUser = DataStorage.getCurrentUser();
     if (currentUser) {
       UserState.setState(currentUser);
+      DataStorage.updateBudgetDataOnLoad(addBudgets);
     }
 
     const userBudgetData = DataStorage.getUserBudgetData();
     if (userBudgetData) {
       userBudgetData.map((budget) => {
-        budgetState.addBudget(budget);
+        budgetState.addBudgets(budget);
       });
     }
   }, []);

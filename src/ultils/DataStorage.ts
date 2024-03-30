@@ -11,18 +11,21 @@ export class DataStorage {
     localStorage.setItem("currentUser", JSON.stringify(data));
   }
 
+  static async getData(key: string): Promise<string | null> {
+    const hashedKey = await HashContent(key);
+    return localStorage.getItem(hashedKey);
+  }
+
   static async getLoginData(info: LoginInfo): Promise<LoginInfo | null> {
     const { email, password }: LoginInfo = info;
-    const hashedId = await HashContent(email);
-    const stringData: string | null = localStorage.getItem(hashedId);
+    const stringData = await DataStorage.getData(email);
     if (stringData !== null) return { email, password };
     return null;
   }
 
   static async getUserData(info: LoginInfo): Promise<Info | null> {
     const { email }: LoginInfo = info;
-    const hashedId = await HashContent(email);
-    const stringData: string | null = localStorage.getItem(hashedId);
+    const stringData = await DataStorage.getData(email);
     if (stringData != null) return JSON.parse(stringData);
     return null;
   }
@@ -35,6 +38,35 @@ export class DataStorage {
   static clearCurrentUser(): void {
     const currentUser = localStorage.getItem("currentUser");
     if (currentUser) localStorage.removeItem("currentUser");
+  }
+
+  static addBudgetData(data: Budget, addBudgets: (budget: Budget) => void) {
+    const currentUser = DataStorage.getCurrentUser();
+    if (!currentUser) {
+      console.error("Unable to add data");
+      return;
+    }
+    //for localstorage only
+    if (DataStorage.budgetDataExists(data)) return;
+    currentUser.userData.push(data);
+
+    addBudgets(data);
+    localStorage.setItem("currentUser", JSON.stringify(currentUser));
+  }
+
+  static budgetDataExists(data: Budget): boolean {
+    const currentUser = DataStorage.getCurrentUser();
+    return (currentUser as Info).userData.some(
+      (budgetData) => budgetData.id === data.id
+    );
+  }
+
+  static updateBudgetDataOnLoad(addBudget: (budget: Budget) => void) {
+    const budgetData = DataStorage.getCurrentUser()?.userData;
+    if (!budgetData) return;
+    budgetData.forEach((budget) => {
+      addBudget(budget);
+    });
   }
 
   static addUserBudgetData(data: Budget) {

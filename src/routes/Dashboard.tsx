@@ -2,17 +2,15 @@ import { Form, Outlet, useLocation } from "react-router-dom";
 import { UserState } from "../states/User";
 import { DataStorage } from "../ultils/DataStorage";
 import HeaderAndSummery from "../components/HeaderAndSummery";
-import { useBudgetStore } from "../states/Budget";
+import BudgetDisplay from "../components/BudgetsDisplay";
 
 export default function Dashboard() {
-  const location = useLocation();
-  console.log(location);
   const userState = UserState();
-  const budgetsData = useBudgetStore((state) => state.budgets);
   return (
-    <div>
+    <div className=''>
       <HeaderAndSummery />
       <Outlet />
+      <BudgetDisplay />
       <div className='mt-5'>
         <div>
           <Form
@@ -25,10 +23,6 @@ export default function Dashboard() {
           </Form>
         </div>
       </div>
-      <ul>
-        {location.pathname != "/budget" &&
-          budgetsData.map((elem) => <li key={elem.id}>{elem.name}</li>)}
-      </ul>
     </div>
   );
 }

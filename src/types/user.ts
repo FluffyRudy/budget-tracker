@@ -1,5 +1,4 @@
 import { Budget } from "./budget";
-
 export interface Info {
   id: string;
   name: string;

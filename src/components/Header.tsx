@@ -2,7 +2,7 @@ import { NavLink, Link } from "react-router-dom";
 
 export default function Header() {
   return (
-    <div className='sticky top-0'>
+    <div className=''>
       <header
         className='relative py-3 w-full bg-[rgba(0, 0, 0, 0.7)] uppercase text-center flex-wrap flex items-center justify-around'
         style={{ minHeight: "max-content" }}>

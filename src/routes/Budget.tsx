@@ -1,34 +1,28 @@
+import { useState } from "react";
 import { Form } from "react-router-dom";
-import { useBudgetStore } from "../states/Budget";
-import { useEffect, useState } from "react";
 import { Budget } from "../types/budget";
 import { HashContent } from "../ultils/hashlib";
 import { DataStorage } from "../ultils/DataStorage";
-
-export default function BudgetMaker() {
+import { useBudgetStore } from "../states/Budget";
+export default function BudgetAdder() {
   const [name, setName] = useState("");
-  const [amount, setAmount] = useState(0);
-  const [date, setDate] = useState<string>("");
-  const [BType, setBType] = useState("");
-  const [recurring, setRecurring] = useState("");
-  const budgetState = useBudgetStore((state) => state);
+  const [amount, setAmount] = useState<number>(0);
+  const [date, setDate] = useState("");
+  const [bType, setBType] = useState("income");
+  const [occurance, setOccurance] = useState("recurring");
+  const { addBudgets } = useBudgetStore();
 
-  async function handleSubmit(e: React.FormEvent): Promise<void> {
+  async function handleBudgetAdd(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-
-    if (budgetState.allBudgetsId.includes(name)) return;
-    console.log(budgetState.allBudgetsId);
-    const budget: Budget = {
+    const budgetData: Budget = {
+      id: await HashContent(name),
       name: name,
       amount: amount,
       date: date,
-      type: BType,
-      recurring: recurring,
-      id: await HashContent(name),
+      type: bType,
+      occurance: occurance,
     };
-    budgetState.addBudgetId(name);
-    budgetState.addBudget(budget);
-    DataStorage.addUserBudgetData(budget);
+    DataStorage.addBudgetData(budgetData, addBudgets);
   }
 
   return (
@@ -36,8 +30,8 @@ export default function BudgetMaker() {
       <section>
         <h1 className='text-center font-mono'>Add</h1>
         <Form
-          onSubmit={handleSubmit}
-          className='mx-auto flex flex-col items-center w-[min(500px,100vw)]'>
+          onSubmit={handleBudgetAdd}
+          className='w-[min(500px,98vw)] m-auto flex flex-col gap-[1vh] items-center justify-between'>
           <label htmlFor='budget-name'>
             Name: <br />
             <input
@@ -52,12 +46,12 @@ export default function BudgetMaker() {
           <label htmlFor='budget-amount'>
             Amount: <br />
             <input
-              onChange={(e) => setAmount(Number(e.target.value))}
               className='login-input-button'
               id='budget-amount'
               type='number'
               value={amount}
               required
+              onChange={(e) => setAmount(Number(e.target.value))}
             />
           </label>
           <label htmlFor='date'>
@@ -68,41 +62,28 @@ export default function BudgetMaker() {
               id='date'
               type='date'
               value={date}
-              required
             />
           </label>
-          <div>
-            <label htmlFor='budget-type'>Type</label> <br />
-            <select
-              onChange={(e) => setBType(e.target.value)}
-              onFocus={() => setBType(" ")}
-              className='login-input-button'
-              name='budget-type'
-              id='budget-type'
-              required>
-              <option hidden={BType !== ""}>Select</option>
-              <option value='income'>Income</option>
-              <option value='expense'>Expenses</option>
-            </select>
-          </div>
-          <div>
-            <label htmlFor='occurance-type'>Recurring:</label> <br />
-            <select
-              onChange={(e) => setRecurring(e.target.value)}
-              onFocus={() => setRecurring(" ")}
-              className='login-input-button'
-              name='occurance-type'
-              id='occurance-type'
-              required>
-              <option
-                hidden={recurring !== ""}
-                value={""}>
-                Select
-              </option>
-              <option value='one-time'>One-time</option>
-              <option value='recurring'>Recurring</option>
-            </select>
-          </div>
+          <select
+            className='w-[80%] py-4 text-2xl'
+            name='budget-type'
+            id='budget-type'
+            value={bType}
+            onChange={(e) => setBType(e.target.value)}
+            required>
+            <option value='income'>Income</option>
+            <option value='expense'>Expenses</option>
+          </select>
+          <select
+            className='w-[80%] py-4 text-2xl'
+            name='occurance-type'
+            id='occurance-type'
+            value={occurance}
+            onChange={(e) => setOccurance(e.target.value)}
+            required>
+            <option value='one-time'>One-time</option>
+            <option value='recurring'>Recurring</option>
+          </select>
           <button className='login-input-button'>Add</button>
         </Form>
       </section>
