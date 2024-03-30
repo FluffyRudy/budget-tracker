@@ -30,14 +30,6 @@ const router = createBrowserRouter([
       },
     ],
   },
-  // {
-  //   path: "/budget",
-  //   element: (
-  //     <RouterProtector>
-  //       <Budget />
-  //     </RouterProtector>
-  //   ),
-  // },
   {
     path: "/login",
     element: <Login />,
