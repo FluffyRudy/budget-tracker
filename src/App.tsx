@@ -9,6 +9,7 @@ import Register from "./routes/authentication/Register";
 import ErrorPage from "./components/ErrorPage";
 import { UserState } from "./states/User";
 import Budget from "./routes/Budget";
+import { useBudgetStore } from "./states/Budget";
 
 const router = createBrowserRouter([
   {
@@ -52,10 +53,12 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  const { addBudgets } = useBudgetStore();
   useEffect(() => {
     const currentUser = DataStorage.getCurrentUser();
     if (currentUser) {
       UserState.setState(currentUser);
+      DataStorage.updateStateDataOnLoad(addBudgets);
     }
   }, []);
   return <RouterProvider router={router} />;
