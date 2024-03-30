@@ -68,4 +68,17 @@ export class DataStorage {
       addBudget(budget);
     });
   }
+
+  static addUserBudgetData(data: Budget) {
+    const currentUser = DataStorage.getCurrentUser();
+    if (currentUser === null) return;
+    currentUser.userData.push(data);
+    localStorage.setItem("currentUser", JSON.stringify(currentUser));
+  }
+
+  static getUserBudgetData(): Budget[] | null {
+    const currentUser = DataStorage.getCurrentUser();
+    if (currentUser) return currentUser.userData ? currentUser.userData : null;
+    return null;
+  }
 }

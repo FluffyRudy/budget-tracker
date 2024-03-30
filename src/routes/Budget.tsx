@@ -26,30 +26,30 @@ export default function BudgetAdder() {
   }
 
   return (
-    <div className='flex flex-col'>
-      <section className='mt-[5vmax]'>
-        <h2 className='text-center text-2xl text-white mb-[2vmax]'>Add</h2>
+    <div className='mt-8'>
+      <section>
+        <h1 className='text-center font-mono'>Add</h1>
         <Form
           onSubmit={handleBudgetAdd}
           className='w-[min(500px,98vw)] m-auto flex flex-col gap-[1vh] items-center justify-between'>
           <label htmlFor='budget-name'>
             Name: <br />
             <input
+              onChange={(e) => setName(e.target.value)}
+              className='login-input-button'
               id='budget-name'
               type='text'
               value={name}
-              className='login-input-button'
               required
-              onChange={(e) => setName(e.target.value)}
             />
           </label>
           <label htmlFor='budget-amount'>
             Amount: <br />
             <input
+              className='login-input-button'
               id='budget-amount'
               type='number'
               value={amount}
-              className='login-input-button'
               required
               onChange={(e) => setAmount(Number(e.target.value))}
             />
@@ -57,12 +57,11 @@ export default function BudgetAdder() {
           <label htmlFor='date'>
             Date: <br />
             <input
+              onChange={(e) => setDate(e.target.value)}
+              className='login-input-button'
               id='date'
               type='date'
               value={date}
-              className='login-input-button'
-              required
-              onChange={(e) => setDate(e.target.value)}
             />
           </label>
           <select
