@@ -58,7 +58,7 @@ function App() {
     const currentUser = DataStorage.getCurrentUser();
     if (currentUser) {
       UserState.setState(currentUser);
-      DataStorage.updateStateDataOnLoad(addBudgets);
+      DataStorage.updateBudgetDataOnLoad(addBudgets);
     }
   }, []);
   return <RouterProvider router={router} />;

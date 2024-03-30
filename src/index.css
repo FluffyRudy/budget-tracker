@@ -18,11 +18,17 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;
+    width: min(1000px, 90vw);
+    margin: auto;
   }
 
   .budget-summery {
     background-color: rgba(0, 0, 0, 0.3);
-    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 150px;
   }
 }
 
@@ -80,6 +86,15 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+th {
+  border: 1px solid white;
+  text-align: left;
+}
+
+td {
+  border: 1px solid grey;
 }
 
 @media (prefers-color-scheme: light) {

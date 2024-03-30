@@ -6,3 +6,9 @@ export interface Budget {
   type: string;
   occurance: string;
 }
+
+export interface BudgetSummery {
+  totalIncome: number;
+  totalExpenses: number;
+  balance: number;
+}

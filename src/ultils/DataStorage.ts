@@ -61,7 +61,7 @@ export class DataStorage {
     );
   }
 
-  static updateStateDataOnLoad(addBudget: (budget: Budget) => void) {
+  static updateBudgetDataOnLoad(addBudget: (budget: Budget) => void) {
     const budgetData = DataStorage.getCurrentUser()?.userData;
     if (!budgetData) return;
     budgetData.forEach((budget) => {

@@ -3,15 +3,17 @@ import { UserState } from "../states/User";
 import { DataStorage } from "../ultils/DataStorage";
 import HeaderAndSummery from "../components/HeaderAndSummery";
 import { useBudgetStore } from "../states/Budget";
+import BudgetDisplay from "../components/BudgetsDisplay";
 
 export default function Dashboard() {
   const userState = UserState();
   const budgetStore = useBudgetStore((state) => state);
   console.log(budgetStore.budgets);
   return (
-    <div>
+    <div className=''>
       <HeaderAndSummery />
       <Outlet />
+      <BudgetDisplay />
       <div className='mt-5'>
         <div>
           <Form
