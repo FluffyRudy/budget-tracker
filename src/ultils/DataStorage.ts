@@ -1,3 +1,4 @@
+import { Budget } from "../types/budget";
 import { Info, LoginInfo } from "../types/user";
 import { HashContent } from "./hashlib";
 
@@ -35,4 +36,25 @@ export class DataStorage {
     const currentUser = localStorage.getItem("currentUser");
     if (currentUser) localStorage.removeItem("currentUser");
   }
+
+  static addBudgetData(data: Budget, addBudgets: (budget: Budget) => void) {
+    const currentUser = DataStorage.getCurrentUser();
+    if (!currentUser) {
+      console.error("Unable to add data");
+      return;
+    }
+    if (DataStorage.budgetDataExists(data)) return;
+    currentUser.userData.push(data);
+    addBudgets(data);
+    localStorage.setItem("currentUser", JSON.stringify(currentUser));
+  }
+
+  static budgetDataExists(data: Budget): boolean {
+    const currentUser = DataStorage.getCurrentUser();
+    return (currentUser as Info).userData.some(
+      (budgetData) => budgetData.id === data.id
+    );
+  }
+
+  static updateStateDataOnLoad(addBudget: (budget: Budget) => void) {}
 }

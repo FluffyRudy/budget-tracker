@@ -1,10 +1,11 @@
+import { Budget } from "./budget";
 export interface Info {
   id: string;
   name: string;
   email: string;
   password: string;
   isAuthenticated: boolean;
-  userData: Array<Record<string, string>>;
+  userData: Array<Budget>;
 }
 
 export interface LoginInfo {

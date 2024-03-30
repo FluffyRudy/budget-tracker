@@ -1,19 +1,46 @@
+import { useState } from "react";
 import { Form } from "react-router-dom";
-export default function Budget() {
+import { Budget } from "../types/budget";
+import { HashContent } from "../ultils/hashlib";
+import { DataStorage } from "../ultils/DataStorage";
+import { useBudgetStore } from "../states/Budget";
+export default function BudgetAdder() {
+  const [name, setName] = useState("");
+  const [amount, setAmount] = useState<number>(0);
+  const [date, setDate] = useState("");
+  const [bType, setBType] = useState("income");
+  const [occurance, setOccurance] = useState("recurring");
+  const { addBudgets } = useBudgetStore();
+
+  async function handleBudgetAdd(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const budgetData: Budget = {
+      id: await HashContent(name),
+      name: name,
+      amount: amount,
+      date: date,
+      type: bType,
+      occurance: occurance,
+    };
+    DataStorage.addBudgetData(budgetData, addBudgets);
+  }
+
   return (
     <div className='flex flex-col'>
       <section className='mt-[5vmax]'>
         <h2 className='text-center text-2xl text-white mb-[2vmax]'>Add</h2>
         <Form
-          onSubmit={() => alert("dattebayo")}
+          onSubmit={handleBudgetAdd}
           className='w-[min(500px,98vw)] m-auto flex flex-col gap-[1vh] items-center justify-between'>
           <label htmlFor='budget-name'>
             Name: <br />
             <input
               id='budget-name'
               type='text'
+              value={name}
               className='login-input-button'
               required
+              onChange={(e) => setName(e.target.value)}
             />
           </label>
           <label htmlFor='budget-amount'>
@@ -21,8 +48,10 @@ export default function Budget() {
             <input
               id='budget-amount'
               type='number'
+              value={amount}
               className='login-input-button'
               required
+              onChange={(e) => setAmount(Number(e.target.value))}
             />
           </label>
           <label htmlFor='date'>
@@ -30,20 +59,19 @@ export default function Budget() {
             <input
               id='date'
               type='date'
+              value={date}
               className='login-input-button'
               required
+              onChange={(e) => setDate(e.target.value)}
             />
           </label>
           <select
             className='w-[80%] py-4 text-2xl'
             name='budget-type'
             id='budget-type'
+            value={bType}
+            onChange={(e) => setBType(e.target.value)}
             required>
-            <option
-              defaultValue=''
-              disabled>
-              Select
-            </option>
             <option value='income'>Income</option>
             <option value='expense'>Expenses</option>
           </select>
@@ -51,20 +79,13 @@ export default function Budget() {
             className='w-[80%] py-4 text-2xl'
             name='occurance-type'
             id='occurance-type'
+            value={occurance}
+            onChange={(e) => setOccurance(e.target.value)}
             required>
-            <option
-              value=''
-              disabled>
-              Select
-            </option>
             <option value='one-time'>One-time</option>
             <option value='recurring'>Recurring</option>
           </select>
-          <button
-            type='submit'
-            className='login-input-button'>
-            Add
-          </button>
+          <button className='login-input-button'>Add</button>
         </Form>
       </section>
     </div>
