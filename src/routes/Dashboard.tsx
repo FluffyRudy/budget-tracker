@@ -7,8 +7,6 @@ import BudgetDisplay from "../components/BudgetsDisplay";
 
 export default function Dashboard() {
   const userState = UserState();
-  const budgetStore = useBudgetStore((state) => state);
-  console.log(budgetStore.budgets);
   return (
     <div className=''>
       <HeaderAndSummery />
