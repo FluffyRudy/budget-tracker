@@ -34,10 +34,6 @@ export const useBudgetStore = create<BudgetStore>()((set) => ({
 
   updateBudget: (budgetId: string, updateBudget: Budget) =>
     set((state) => {
-      const isDuplicate = state.budgets.some(
-        (elem) => elem.id === updateBudget.id
-      );
-      if (isDuplicate) return state;
       return {
         budgets: state.budgets.map((budget) =>
           budget.id === budgetId ? { ...budget, ...updateBudget } : budget
