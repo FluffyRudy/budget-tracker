@@ -96,9 +96,9 @@ export class DataStorage {
     const isDuplicate = DataStorage.getBudgetDataByID(updateBudget.id);
 
     const budgetIndex = currentUser.userData.findIndex(
-      (budget) => budget.id === updateBudget.id
+      (budget) => budget.id === (isDuplicate ? updateBudget.id : budgetID)
     );
-
+    if (budgetIndex === -1) return;
     currentUser.userData[budgetIndex] = updateBudget;
 
     localStorage.setItem("currentUser", JSON.stringify(currentUser));
