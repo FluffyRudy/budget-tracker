@@ -1,11 +1,16 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useBudgetStore } from "../states/Budget";
 
 export default function BudgetDisplay() {
   const location = useLocation();
+  const navigate = useNavigate();
   const budgetState = useBudgetStore();
 
-  if (location.pathname === "/budget") return null;
+  function handleEdit(budgetID: string) {
+    navigate(`/budget/${budgetID}`);
+  }
+
+  if (location.pathname.includes("/budget")) return null;
   return (
     <div className='mt-5'>
       <table className='w-[min(800px,100vw)] m-auto'>
@@ -16,6 +21,7 @@ export default function BudgetDisplay() {
             <th>Type</th>
             <th>Recurring</th>
             <th>Amount</th>
+            <th>Action</th>
           </tr>
         </thead>
 
@@ -27,6 +33,9 @@ export default function BudgetDisplay() {
               <td>{elem.type}</td>
               <td>{elem.occurance}</td>
               <td>{elem.amount}</td>
+              <td>
+                <button onClick={() => handleEdit(elem.id)}>Edit</button>
+              </td>
             </tr>
           ))}
         </tbody>

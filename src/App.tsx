@@ -28,6 +28,14 @@ const router = createBrowserRouter([
           </RouterProtector>
         ),
       },
+      {
+        path: "/budget/:budgetID",
+        element: (
+          <RouterProtector>
+            <Budget />
+          </RouterProtector>
+        ),
+      },
     ],
   },
   {
