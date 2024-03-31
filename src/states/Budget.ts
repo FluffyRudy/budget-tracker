@@ -43,7 +43,7 @@ export const useBudgetStore = create<BudgetStore>()((set) => ({
             ? { ...budget, ...updateBudget }
             : budget
         ),
-        summery: state.summery,
+        summery: summeryUpdater(updateBudget, state.summery),
       };
     }),
 }));
