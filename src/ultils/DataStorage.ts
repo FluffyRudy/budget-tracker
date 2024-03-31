@@ -93,8 +93,10 @@ export class DataStorage {
 
     if (!budgetData || !currentUser) return;
 
+    const isDuplicate = DataStorage.getBudgetDataByID(updateBudget.id);
+
     const budgetIndex = currentUser.userData.findIndex(
-      (budget) => budget.id === budgetID
+      (budget) => budget.id === updateBudget.id
     );
 
     currentUser.userData[budgetIndex] = updateBudget;
