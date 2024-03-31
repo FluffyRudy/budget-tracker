@@ -15,10 +15,14 @@ export default function BudgetForm({
   const [name, setName] = useState(budgerData?.name ?? "");
   const [amount, setAmount] = useState<number>(budgerData?.amount ?? 0);
   const [date, setDate] = useState(budgerData?.date ?? "");
-  const [bType, setBType] = useState(budgerData?.type ?? "income");
+  const [bType, setBType] = useState(budgerData?.type ?? "type-none");
   const [occurance, setOccurance] = useState(
-    budgerData?.occurance ?? "recurring"
+    budgerData?.occurance ?? "occurance-none"
   );
+  const [selectFocused, setSelectFocused] = useState({
+    typeFocused: false,
+    occuranceFocused: false,
+  });
   const { addBudgets, updateBudget } = useBudgetStore();
   const navigate = useNavigate();
 
@@ -94,8 +98,16 @@ export default function BudgetForm({
         name='budget-type'
         id='budget-type'
         value={bType}
+        onFocus={() =>
+          setSelectFocused((state) => ({ ...state, typeFocused: true }))
+        }
         onChange={(e) => setBType(e.target.value)}
         required>
+        <option
+          value='type-none'
+          hidden={selectFocused.typeFocused}>
+          select
+        </option>
         <option value='income'>Income</option>
         <option value='expense'>Expenses</option>
       </select>
@@ -104,8 +116,16 @@ export default function BudgetForm({
         name='occurance-type'
         id='occurance-type'
         value={occurance}
+        onFocus={() =>
+          setSelectFocused((state) => ({ ...state, occuranceFocused: true }))
+        }
         onChange={(e) => setOccurance(e.target.value)}
         required>
+        <option
+          value='occurance-none'
+          hidden={selectFocused.occuranceFocused}>
+          select
+        </option>
         <option value='one-time'>One-time</option>
         <option value='recurring'>Recurring</option>
       </select>
