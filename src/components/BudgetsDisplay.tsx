@@ -40,11 +40,13 @@ export default function BudgetDisplay() {
               <td>{elem.amount}</td>
               <td className='flex justify-center gap-1 p-0 box-border'>
                 <button
+                  title='edit'
                   className='max-h-[max-content] p-0 bg-blue-500 w-[30px]'
                   onClick={() => handleEdit(elem.id)}>
                   ✏️
                 </button>
                 <button
+                  title='delete'
                   className='max-h-[max-content] p-0 bg-red-500 w-[30px]'
                   onClick={() => handleDelete(elem.id)}>
                   🗑
