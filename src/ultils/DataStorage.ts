@@ -43,8 +43,7 @@ export class DataStorage {
   static addBudgetData(data: Budget, addBudgets: (budget: Budget) => void) {
     const currentUser = DataStorage.getCurrentUser();
     if (!currentUser) {
-      console.error("Unable to add data");
-      return;
+      throw new Error("Unable to add data");
     }
     //for localstorage only
     if (DataStorage.budgetDataExists(data)) return;
