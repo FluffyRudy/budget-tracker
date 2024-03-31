@@ -34,7 +34,11 @@ export default function BudgetDisplay() {
               <td>{elem.occurance}</td>
               <td>{elem.amount}</td>
               <td>
-                <button onClick={() => handleEdit(elem.id)}>Edit</button>
+                <button
+                  className='max-h-[max-content] p-0 bg-blue-500 w-[30px]'
+                  onClick={() => handleEdit(elem.id)}>
+                  ✏️
+                </button>
               </td>
             </tr>
           ))}

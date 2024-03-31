@@ -7,7 +7,7 @@ export default function BudgetAdder() {
     <div className='mt-8'>
       <section>
         <h1 className='text-center font-mono'>{budgetID ? "Update" : "Add"}</h1>
-        <BudgetForm status={budgetID ? "Update" : undefined} />
+        <BudgetForm budgetID={budgetID} />
       </section>
     </div>
   );

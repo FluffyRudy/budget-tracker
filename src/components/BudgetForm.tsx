@@ -5,19 +5,23 @@ import { HashContent } from "../ultils/hashlib";
 import { DataStorage } from "../ultils/DataStorage";
 import { useBudgetStore } from "../states/Budget";
 
+type FormEvent = React.FormEvent<HTMLFormElement>;
 export default function BudgetForm({
-  status,
+  budgetID,
 }: {
-  status?: "Update" | undefined;
+  budgetID?: string | undefined;
 }) {
-  const [name, setName] = useState("");
-  const [amount, setAmount] = useState<number>(0);
-  const [date, setDate] = useState("");
-  const [bType, setBType] = useState("income");
-  const [occurance, setOccurance] = useState("recurring");
-  const { addBudgets } = useBudgetStore();
+  const budgerData = DataStorage.getBudgetDataByID(budgetID);
+  const [name, setName] = useState(budgerData?.name ?? "");
+  const [amount, setAmount] = useState<number>(budgerData?.amount ?? 0);
+  const [date, setDate] = useState(budgerData?.date ?? "");
+  const [bType, setBType] = useState(budgerData?.type ?? "income");
+  const [occurance, setOccurance] = useState(
+    budgerData?.occurance ?? "recurring"
+  );
+  const { addBudgets, updateBudget } = useBudgetStore();
 
-  async function handleBudgetAdd(e: React.FormEvent<HTMLFormElement>) {
+  async function handleBudgetAdd(e: FormEvent) {
     e.preventDefault();
     const budgetData: Budget = {
       id: await HashContent(name),
@@ -30,9 +34,23 @@ export default function BudgetForm({
     DataStorage.addBudgetData(budgetData, addBudgets);
   }
 
+  async function handleBudgetUpdate(e: FormEvent) {
+    e.preventDefault();
+    const updatedBudget: Budget = {
+      id: await HashContent(name),
+      name: name,
+      amount: amount,
+      date: date,
+      type: bType,
+      occurance: occurance,
+    };
+    updateBudget(budgetID!, updatedBudget);
+    DataStorage.updateBudgetData(budgetID!, updatedBudget);
+  }
+
   return (
     <Form
-      onSubmit={handleBudgetAdd}
+      onSubmit={budgetID ? handleBudgetUpdate : handleBudgetAdd}
       className='w-[min(500px,98vw)] m-auto flex flex-col gap-[1vh] items-center justify-between'>
       <label htmlFor='budget-name'>
         Name: <br />
@@ -87,7 +105,7 @@ export default function BudgetForm({
         <option value='recurring'>Recurring</option>
       </select>
       <button className='login-input-button'>
-        {status ? "Update" : "Add"}
+        {budgetID ? "Update" : "Add"}
       </button>
     </Form>
   );

@@ -81,4 +81,28 @@ export class DataStorage {
     if (currentUser) return currentUser.userData ? currentUser.userData : null;
     return null;
   }
+
+  static getBudgetDataByID(id: string | undefined): Budget | undefined {
+    if (!id) return undefined;
+    const budgetData = DataStorage.getUserBudgetData();
+    return budgetData?.find((elem) => elem.id === id);
+  }
+
+  static updateBudgetData(budgetID: string, updateBudget: Budget) {
+    const currentUser = DataStorage.getCurrentUser();
+    const budgetData = DataStorage.getBudgetDataByID(budgetID);
+
+    if (!budgetData || !currentUser) return;
+
+    const isDuplicate = DataStorage.getBudgetDataByID(updateBudget.id);
+    if (isDuplicate) return;
+
+    const budgetIndex = currentUser.userData.findIndex(
+      (budget) => budget.id === budgetID
+    );
+
+    currentUser.userData[budgetIndex] = updateBudget;
+
+    localStorage.setItem("currentUser", JSON.stringify(currentUser));
+  }
 }

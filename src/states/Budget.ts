@@ -6,6 +6,7 @@ type BudgetStore = {
   summery: Summery;
   addBudgets: (budget: Budget) => void;
   removeBudget: (budgetID: string) => void;
+  updateBudget: (budgetID: string, updatedBudget: Budget) => void;
 };
 
 export const useBudgetStore = create<BudgetStore>()((set) => ({
@@ -30,6 +31,20 @@ export const useBudgetStore = create<BudgetStore>()((set) => ({
     set((state) => ({
       budgets: state.budgets.filter((elem) => elem.id != budgetID),
     })),
+
+  updateBudget: (budgetId: string, updateBudget: Budget) =>
+    set((state) => {
+      const isDuplicate = state.budgets.some(
+        (elem) => elem.id === updateBudget.id
+      );
+      if (isDuplicate) return state;
+      return {
+        budgets: state.budgets.map((budget) =>
+          budget.id === budgetId ? { ...budget, ...updateBudget } : budget
+        ),
+        summery: state.summery,
+      };
+    }),
 }));
 
 function summeryUpdater(budget: Budget, prevSummery: Summery) {
