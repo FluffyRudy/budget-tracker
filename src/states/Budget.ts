@@ -22,55 +22,66 @@ export const useBudgetStore = create<BudgetStore>()((set) => ({
       if (!isDuplicate) {
         return {
           budgets: [...state.budgets, budget],
-          summery: summeryUpdater(budget, state.summery, "add"),
+          summery: summeryUpdater(null, budget, state.summery),
         };
       }
       return state;
     }),
   removeBudget: (budgetID) =>
-    set((state) => ({
-      budgets: state.budgets.filter((elem) => elem.id != budgetID),
-      summery: summeryUpdater(
-        state.budgets.find((budget) => budget.id === budgetID)!,
-        state.summery,
-        "remove"
-      ),
-    })),
-
-  updateBudget: (budgetId: string, updateBudget: Budget) =>
     set((state) => {
-      const isDuplicate = state.budgets.some(
-        (elem) => elem.id === updateBudget.id
+      const budgetToRemove = state.budgets.find(
+        (budget) => budget.id === budgetID
       );
+      if (!budgetToRemove) {
+        return state;
+      }
+      return {
+        budgets: state.budgets.filter((elem) => elem.id !== budgetID),
+        summery: summeryUpdater(budgetToRemove, null, state.summery),
+      };
+    }),
+  updateBudget: (budgetId: string, updatedBudget: Budget) =>
+    set((state) => {
+      const oldBudget = state.budgets.find((budget) => budget.id === budgetId);
+      if (!oldBudget) {
+        return state;
+      }
       return {
         budgets: state.budgets.map((budget) =>
-          budget.id === (isDuplicate ? updateBudget.id : budgetId)
-            ? { ...budget, ...updateBudget }
-            : budget
+          budget.id === budgetId ? { ...budget, ...updatedBudget } : budget
         ),
-        summery: summeryUpdater(updateBudget, state.summery, "update"),
+        summery: summeryUpdater(oldBudget, updatedBudget, state.summery),
       };
     }),
 }));
 
-function summeryUpdater(budget: Budget, prevSummery: Summery, action?: string) {
-  const summery: Summery = { ...prevSummery };
+function summeryUpdater(
+  oldBudget: Budget | null,
+  newBudget: Budget | null,
+  prevSummery: Summery
+): Summery {
+  let summery: Summery = { ...prevSummery };
+  if (oldBudget) {
+    summery = adjustSummery(oldBudget, summery, -1);
+  }
+  if (newBudget) {
+    summery = adjustSummery(newBudget, summery, 1);
+  }
+  return summery;
+}
+
+function adjustSummery(
+  budget: Budget,
+  summery: Summery,
+  operation: number
+): Summery {
+  const amount = operation * budget.amount;
   if (budget.type === "income") {
-    if (action === "add" || action === "update") {
-      summery.income += budget.amount;
-      summery.balance += budget.amount;
-    } else if (action === "remove") {
-      summery.income -= budget.amount;
-      summery.balance -= budget.amount;
-    }
+    summery.income += amount;
+    summery.balance += amount;
   } else if (budget.type === "expense") {
-    if (action === "add" || action === "update") {
-      summery.expenses += budget.amount;
-      summery.balance -= budget.amount;
-    } else if (action === "remove") {
-      summery.expenses -= budget.amount;
-      summery.balance += budget.amount;
-    }
+    summery.expenses += amount;
+    summery.balance -= amount;
   }
   return summery;
 }
