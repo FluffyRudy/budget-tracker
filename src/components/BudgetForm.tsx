@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Form } from "react-router-dom";
+import { Form, useNavigate } from "react-router-dom";
 import { Budget } from "../types/budget";
 import { HashContent } from "../ultils/hashlib";
 import { DataStorage } from "../ultils/DataStorage";
@@ -20,6 +20,7 @@ export default function BudgetForm({
     budgerData?.occurance ?? "recurring"
   );
   const { addBudgets, updateBudget } = useBudgetStore();
+  const navigate = useNavigate();
 
   async function handleBudgetAdd(e: FormEvent) {
     e.preventDefault();
@@ -50,7 +51,11 @@ export default function BudgetForm({
 
   return (
     <Form
-      onSubmit={budgetID ? handleBudgetUpdate : handleBudgetAdd}
+      onSubmit={(e) => {
+        if (budgetID) handleBudgetUpdate(e);
+        else handleBudgetAdd(e);
+        navigate("/");
+      }}
       className='w-[min(500px,98vw)] m-auto flex flex-col gap-[1vh] items-center justify-between'>
       <label htmlFor='budget-name'>
         Name: <br />
