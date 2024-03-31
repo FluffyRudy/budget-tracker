@@ -8,7 +8,7 @@ export default function HeaderAndSummery() {
   return (
     <div>
       <Header />
-      <h2 className='w-[min(1000px,90vw)] mx-auto my-5 font-extrabold font-sans text-2xl  text-red-300'>
+      <h2 className='w-[min(1000px,90vw)] mx-auto my-5 font-extrabold font-mono text-2xl  text-red-300'>
         Hello {UserState().name} 👽{" "}
         <span>
           {summery.balance < 1000

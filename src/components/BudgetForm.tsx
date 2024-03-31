@@ -13,7 +13,9 @@ export default function BudgetForm({
 }) {
   const budgerData = DataStorage.getBudgetDataByID(budgetID);
   const [name, setName] = useState(budgerData?.name ?? "");
-  const [amount, setAmount] = useState<number>(budgerData?.amount ?? 0);
+  const [amount, setAmount] = useState<string>(
+    budgerData?.amount.toFixed() ?? ""
+  );
   const [date, setDate] = useState(budgerData?.date ?? "");
   const [bType, setBType] = useState(budgerData?.type ?? "type-none");
   const [occurance, setOccurance] = useState(
@@ -31,7 +33,7 @@ export default function BudgetForm({
     const budgetData: Budget = {
       id: await HashContent(name),
       name: name,
-      amount: amount,
+      amount: Number(amount),
       date: date,
       type: bType,
       occurance: occurance,
@@ -44,7 +46,7 @@ export default function BudgetForm({
     const updatedBudget: Budget = {
       id: await HashContent(name),
       name: name,
-      amount: amount,
+      amount: Number(amount),
       date: date,
       type: bType,
       occurance: occurance,
@@ -80,7 +82,7 @@ export default function BudgetForm({
           type='number'
           value={amount}
           required
-          onChange={(e) => setAmount(Number(e.target.value))}
+          onChange={(e) => setAmount(e.target.value)}
         />
       </label>
       <label htmlFor='date'>

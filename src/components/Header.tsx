@@ -9,7 +9,7 @@ export default function Header() {
         <div>
           <Link
             to='/'
-            className='ml-2 font-extrabold  text-red-400'
+            className='font-mono ml-2 font-extrabold  text-red-400'
             style={{ fontSize: "min(2em, 3vmax)" }}>
             Budget Tracker
           </Link>

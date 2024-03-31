@@ -19,7 +19,7 @@ export default function BudgetDisplay() {
   if (location.pathname.includes("/budget")) return null;
   return (
     <div className='mt-5'>
-      <table className='border-collapse w-[min(800px,100vw)] m-auto font-mono text-[min(1.2em,2vmin)]'>
+      <table className='w-[min(800px,100vw)] m-auto font-mono text-[min(1.5em,2vmax)]'>
         <thead>
           <tr>
             <th>Name</th>
@@ -38,16 +38,16 @@ export default function BudgetDisplay() {
               <td>{elem.type}</td>
               <td>{elem.occurance}</td>
               <td>{elem.amount}</td>
-              <td>
+              <td className='flex justify-center items-center h-[80px] gap-1 p-0 box-border'>
                 <button
                   title='edit'
-                  className='bg-blue-500'
+                  className='max-h-[max-content] p-0 bg-blue-500 w-[30px]'
                   onClick={() => handleEdit(elem.id)}>
                   ✏️
                 </button>
                 <button
                   title='delete'
-                  className=' bg-red-500 text-white inline-block ml-1'
+                  className='max-h-[max-content] p-0 bg-red-500 w-[30px]'
                   onClick={() => handleDelete(elem.id)}>
                   🗑
                 </button>
