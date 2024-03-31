@@ -18,8 +18,8 @@ export default function BudgetDisplay() {
 
   if (location.pathname.includes("/budget")) return null;
   return (
-    <div className='mt-5'>
-      <table className='w-[min(800px,100vw)] m-auto font-mono text-[min(1.5em,2vmax)]'>
+    <div className='mt-[10vh]'>
+      <table className='w-[min(1000px,100vw)] m-auto font-mono text-[min(1.5em,2vmax)]'>
         <thead>
           <tr>
             <th>Name</th>
