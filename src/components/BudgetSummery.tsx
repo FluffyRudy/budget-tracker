@@ -7,19 +7,21 @@ const MemoizedSummeryPanel = React.memo(SummeryPanel);
 export default function BudgetSummery() {
   const { summery } = useBudgetStore();
   return (
-    <div className='budget-summery-container'>
-      <MemoizedSummeryPanel
-        label='Total Income'
-        value={summery.income}
-      />
-      <MemoizedSummeryPanel
-        label='Total Expenses'
-        value={summery.expenses}
-      />
-      <MemoizedSummeryPanel
-        label='Balance'
-        value={summery.balance}
-      />
-    </div>
+    <>
+      <div className='budget-summery-container'>
+        <MemoizedSummeryPanel
+          label='Total Income'
+          value={summery.income}
+        />
+        <MemoizedSummeryPanel
+          label='Total Expenses'
+          value={summery.expenses}
+        />
+        <MemoizedSummeryPanel
+          label='Balance'
+          value={summery.balance}
+        />
+      </div>
+    </>
   );
 }

@@ -22,7 +22,7 @@ export const useBudgetStore = create<BudgetStore>()((set) => ({
       if (!isDuplicate) {
         return {
           budgets: [...state.budgets, budget],
-          summery: summeryUpdater(budget, state.summery),
+          summery: summeryUpdater(budget, state.summery, "add"),
         };
       }
       return state;
@@ -30,6 +30,11 @@ export const useBudgetStore = create<BudgetStore>()((set) => ({
   removeBudget: (budgetID) =>
     set((state) => ({
       budgets: state.budgets.filter((elem) => elem.id != budgetID),
+      summery: summeryUpdater(
+        state.budgets.find((budget) => budget.id === budgetID)!,
+        state.summery,
+        "remove"
+      ),
     })),
 
   updateBudget: (budgetId: string, updateBudget: Budget) =>
@@ -43,22 +48,29 @@ export const useBudgetStore = create<BudgetStore>()((set) => ({
             ? { ...budget, ...updateBudget }
             : budget
         ),
-        summery: summeryUpdater(updateBudget, state.summery),
+        summery: summeryUpdater(updateBudget, state.summery, "update"),
       };
     }),
 }));
 
-function summeryUpdater(budget: Budget, prevSummery: Summery) {
+function summeryUpdater(budget: Budget, prevSummery: Summery, action?: string) {
   const summery: Summery = { ...prevSummery };
-  switch (budget["type"]) {
-    case "income":
+  if (budget.type === "income") {
+    if (action === "add" || action === "update") {
       summery.income += budget.amount;
       summery.balance += budget.amount;
-      break;
-    case "expense":
+    } else if (action === "remove") {
+      summery.income -= budget.amount;
+      summery.balance -= budget.amount;
+    }
+  } else if (budget.type === "expense") {
+    if (action === "add" || action === "update") {
       summery.expenses += budget.amount;
       summery.balance -= budget.amount;
-      break;
+    } else if (action === "remove") {
+      summery.expenses -= budget.amount;
+      summery.balance += budget.amount;
+    }
   }
   return summery;
 }
