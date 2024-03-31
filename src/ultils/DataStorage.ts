@@ -90,17 +90,26 @@ export class DataStorage {
   static updateBudgetData(budgetID: string, updateBudget: Budget) {
     const currentUser = DataStorage.getCurrentUser();
     const budgetData = DataStorage.getBudgetDataByID(budgetID);
-
     if (!budgetData || !currentUser) return;
 
     const isDuplicate = DataStorage.getBudgetDataByID(updateBudget.id);
-
     const budgetIndex = currentUser.userData.findIndex(
       (budget) => budget.id === (isDuplicate ? updateBudget.id : budgetID)
     );
     if (budgetIndex === -1) return;
-    currentUser.userData[budgetIndex] = updateBudget;
 
+    currentUser.userData[budgetIndex] = updateBudget;
+    localStorage.setItem("currentUser", JSON.stringify(currentUser));
+  }
+
+  static deleteBudgetData(budgetID: string) {
+    const currentUser = DataStorage.getCurrentUser();
+    const budgetData = DataStorage.getBudgetDataByID(budgetID);
+    if (!currentUser || !budgetData) return;
+    const budgetIndex = currentUser.userData.findIndex(
+      (budget) => budget.id === budgetID
+    );
+    currentUser.userData.splice(budgetIndex, 1);
     localStorage.setItem("currentUser", JSON.stringify(currentUser));
   }
 }

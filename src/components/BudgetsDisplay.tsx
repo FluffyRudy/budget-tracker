@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useBudgetStore } from "../states/Budget";
+import { DataStorage } from "../ultils/DataStorage";
 
 export default function BudgetDisplay() {
   const location = useLocation();
@@ -8,6 +9,11 @@ export default function BudgetDisplay() {
 
   function handleEdit(budgetID: string) {
     navigate(`/budget/${budgetID}`);
+  }
+
+  function handleDelete(budgetID: string) {
+    budgetState.removeBudget(budgetID);
+    DataStorage.deleteBudgetData(budgetID);
   }
 
   if (location.pathname.includes("/budget")) return null;
@@ -24,7 +30,6 @@ export default function BudgetDisplay() {
             <th>Action</th>
           </tr>
         </thead>
-
         <tbody>
           {budgetState.budgets.map((elem) => (
             <tr key={elem.id}>
@@ -33,11 +38,16 @@ export default function BudgetDisplay() {
               <td>{elem.type}</td>
               <td>{elem.occurance}</td>
               <td>{elem.amount}</td>
-              <td>
+              <td className='flex justify-center gap-1 p-0 box-border'>
                 <button
                   className='max-h-[max-content] p-0 bg-blue-500 w-[30px]'
                   onClick={() => handleEdit(elem.id)}>
                   ✏️
+                </button>
+                <button
+                  className='max-h-[max-content] p-0 bg-red-500 w-[30px]'
+                  onClick={() => handleDelete(elem.id)}>
+                  🗑
                 </button>
               </td>
             </tr>
