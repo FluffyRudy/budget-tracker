@@ -11,7 +11,7 @@ export function SummeryPanel({
   return (
     <div className='budget-summery font-mono'>
       <h2 className='font-extralight'>{label}</h2>
-      <p className='font-extrabold'>NRs {value}</p>
+      <p className='font-extrabold'>$ {value}</p>
     </div>
   );
 }
