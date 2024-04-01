@@ -7,6 +7,10 @@
       width: min(400px, 95vw);
       padding: 1vmax 0;
       box-sizing: border-box;
+      border-radius: 1vmax;
+      background: transparent;
+      border: 1px dashed grey;
+      outline: none;
   }
 
   .nav-link {
@@ -68,6 +72,18 @@ label {
   font-size: min(1.5em, 2.5vmax);
 }
 
+input, select {
+  text-align: center;
+}
+
+input:focus:invalid {
+  border: 1px solid red;
+}
+
+input:focus:valid {
+  border: 1px solid lime;
+}
+
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -75,7 +91,7 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: #1a1a1a !important;
   cursor: pointer;
   transition: border-color 0.25s;
 }

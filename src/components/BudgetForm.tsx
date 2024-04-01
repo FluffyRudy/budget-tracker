@@ -17,10 +17,8 @@ export default function BudgetForm({
     budgerData?.amount.toFixed() ?? ""
   );
   const [date, setDate] = useState(budgerData?.date ?? "");
-  const [bType, setBType] = useState(budgerData?.type ?? "type-none");
-  const [occurance, setOccurance] = useState(
-    budgerData?.occurance ?? "occurance-none"
-  );
+  const [bType, setBType] = useState(budgerData?.type ?? "");
+  const [occurance, setOccurance] = useState(budgerData?.occurance ?? "");
   const [selectFocused, setSelectFocused] = useState({
     typeFocused: false,
     occuranceFocused: false,
@@ -96,7 +94,7 @@ export default function BudgetForm({
         />
       </label>
       <select
-        className='w-[80%] py-4 text-2xl'
+        className='login-input-button w-[80%] py-4 text-2xl'
         name='budget-type'
         id='budget-type'
         value={bType}
@@ -106,7 +104,7 @@ export default function BudgetForm({
         onChange={(e) => setBType(e.target.value)}
         required>
         <option
-          value='type-none'
+          value=''
           hidden={selectFocused.typeFocused}>
           select
         </option>
@@ -114,7 +112,7 @@ export default function BudgetForm({
         <option value='expense'>Expenses</option>
       </select>
       <select
-        className='w-[80%] py-4 text-2xl'
+        className='login-input-button w-[80%] py-4 text-2xl'
         name='occurance-type'
         id='occurance-type'
         value={occurance}
@@ -124,7 +122,7 @@ export default function BudgetForm({
         onChange={(e) => setOccurance(e.target.value)}
         required>
         <option
-          value='occurance-none'
+          value=''
           hidden={selectFocused.occuranceFocused}>
           select
         </option>
