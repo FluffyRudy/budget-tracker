@@ -8,7 +8,7 @@ export default function Profile() {
   return (
     <div className='relative'>
       <div
-        onClick={(e) => setProfileFocused(!profileFocused)}
+        onClick={() => setProfileFocused(!profileFocused)}
         className='hover:cursor-pointer bg-black-400 relative profile w-[50px] h-[50px]  rounded-full'>
         <Icon
           width='100%'
