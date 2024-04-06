@@ -4,7 +4,7 @@ Budget Tracker
 
 ## Description
 
-This project is a simple web application built with React and TypeScript, designed to manage personal budgets. It allows users to register, login, and manage their budget data securely.
+This project is a simple web application built with React and TypeScript, designed to manage personal budgets. It allows users to register, login, and manage their budget data, this project uses **`localStorage`** to store data and authentication
 
 ## Features
 
