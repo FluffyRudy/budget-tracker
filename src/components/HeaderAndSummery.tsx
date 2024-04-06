@@ -12,7 +12,7 @@ export default function HeaderAndSummery() {
         Hello {UserState().name} 👽{" "}
         <span>
           {summery.balance < 1000
-            ? "Too poor man, pathetic"
+            ? "Moye Moye Too poor man, pathetic"
             : "Enough money enjoy your life"}
         </span>
       </h2>
