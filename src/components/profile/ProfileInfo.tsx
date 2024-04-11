@@ -7,7 +7,8 @@ export default function ProfileInfo() {
     <div className='flex flex-col absolute w-[150px] right-[-100%] z-10'>
       <button className='rounded-none'>Profile</button>
       <Form
-        onSubmit={() => {
+        onSubmit={(e) => {
+          e.preventDefault();
           userState.reset();
         }}
         action='/login'>

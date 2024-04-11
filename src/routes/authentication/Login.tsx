@@ -26,13 +26,15 @@ export default function Login() {
           const user = await DataStorage.getUserData(info);
           console.log(user);
           const isLoggedIn = await Authetication.isUserLoggedIn(info);
+          DataStorage.clearCurrentUser();
           if (isLoggedIn && user && password === user.password) {
             userState.setAuthentication(true);
             userState.set(user);
-            navigate("/");
+            DataStorage.setCurrentUser(user);
           } else {
             setErrorMessgae("Couldnt find user");
           }
+          navigate("/");
         }}
         className='flex flex-col gap-[2vmax]'>
         <label htmlFor='email'>

@@ -1,6 +1,6 @@
 import "./App.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { DataStorage } from "./ultils/DataStorage";
 import Dashboard from "./routes/Dashboard";
 import RouterProtector from "./routes/RouterProtector";
@@ -55,11 +55,20 @@ const router = createBrowserRouter([
 function App() {
   const { addBudgets } = useBudgetStore();
   const budgetState = useBudgetStore((state) => state);
+  const userState = UserState();
 
   useEffect(() => {
+    if (!userState.isAuthenticated) return;
     const currentUser = DataStorage.getCurrentUser();
     if (currentUser) {
-      UserState.setState(currentUser);
+      const userInfp = DataStorage.getUserData(currentUser);
+      userInfp.then((res) => {
+        if (res) {
+          UserState.setState(res);
+        } else {
+          return;
+        }
+      });
       DataStorage.updateBudgetDataOnLoad(addBudgets);
     }
 
@@ -70,6 +79,7 @@ function App() {
       });
     }
   }, []);
+
   return <RouterProvider router={router} />;
 }
 
