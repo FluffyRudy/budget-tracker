@@ -1,5 +1,5 @@
 import { Budget } from "../types/budget";
-import { Info, LoginInfo } from "../types/user";
+import { Info, LoginInfo, User } from "../types/user";
 import { HashContent } from "./hashlib";
 
 export class DataStorage {
@@ -40,16 +40,27 @@ export class DataStorage {
     if (currentUser) localStorage.removeItem("currentUser");
   }
 
-  static addBudgetData(data: Budget, addBudgets: (budget: Budget) => void) {
+  static async addBudgetData(
+    data: Budget,
+    addBudgets: (budget: Budget) => void
+  ) {
     const currentUser = DataStorage.getCurrentUser();
+
     if (!currentUser) {
       throw new Error("Unable to add data");
     }
+
+    const _id = await HashContent(currentUser.email);
+    const rawData = localStorage.getItem(_id);
+    let user: User | null = null;
+    if (rawData) user = JSON.parse(rawData);
     //for localstorage only
     if (DataStorage.budgetDataExists(data)) return;
     currentUser.userData.push(data);
 
     addBudgets(data);
+    user?.userData.push(data);
+    if (user) localStorage.setItem(user.id, JSON.stringify(user));
     localStorage.setItem("currentUser", JSON.stringify(currentUser));
   }
 

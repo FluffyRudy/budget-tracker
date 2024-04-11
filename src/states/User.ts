@@ -18,10 +18,7 @@ const UserState = create<User>()((set) => ({
   setAuthentication: (value: boolean) =>
     set((prevState) => ({ ...prevState, isAuthenticated: value })),
 
-  reset: () =>
-    set(() => ({
-      ...initialData,
-    })),
+  reset: () => set(() => ({ ...initialData })),
 }));
 
 export { UserState };
