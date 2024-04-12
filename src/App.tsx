@@ -58,18 +58,20 @@ function App() {
   const userState = UserState();
 
   useEffect(() => {
-    if (!userState.isAuthenticated) return;
+    budgetState.resetBudget();
+    if (!userState.isAuthenticated && !userState.isCurrentUser) return;
     const currentUser = DataStorage.getCurrentUser();
     if (currentUser) {
       const userInfp = DataStorage.getUserData(currentUser);
       userInfp.then((res) => {
         if (res) {
-          UserState.setState(res);
+          userState.set(res);
         } else {
           return;
         }
       });
-      DataStorage.updateBudgetDataOnLoad(addBudgets);
+      if (userState.isCurrentUser)
+        DataStorage.updateBudgetDataOnLoad(addBudgets);
     }
 
     const userBudgetData = DataStorage.getUserBudgetData();
@@ -78,7 +80,7 @@ function App() {
         budgetState.addBudgets(budget);
       });
     }
-  }, []);
+  }, [userState.isCurrentUser]);
 
   return <RouterProvider router={router} />;
 }
