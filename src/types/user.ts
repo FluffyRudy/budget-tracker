@@ -6,6 +6,7 @@ export interface Info {
   password: string;
   isAuthenticated: boolean;
   userData: Array<Budget>;
+  isCurrentUser: boolean;
 }
 
 export interface LoginInfo {

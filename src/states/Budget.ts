@@ -7,6 +7,7 @@ type BudgetStore = {
   addBudgets: (budget: Budget) => void;
   removeBudget: (budgetID: string) => void;
   updateBudget: (budgetID: string, updatedBudget: Budget) => void;
+  resetBudget: () => void;
 };
 
 export const useBudgetStore = create<BudgetStore>()((set) => ({
@@ -53,6 +54,15 @@ export const useBudgetStore = create<BudgetStore>()((set) => ({
         summery: summeryUpdater(oldBudget, updatedBudget, state.summery),
       };
     }),
+  resetBudget: () =>
+    set(() => ({
+      budgets: [],
+      summery: {
+        income: 0,
+        expenses: 0,
+        balance: 0,
+      },
+    })),
 }));
 
 function summeryUpdater(

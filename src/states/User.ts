@@ -8,6 +8,7 @@ const initialData = {
   password: "",
   isAuthenticated: false,
   userData: [],
+  isCurrentUser: false,
 };
 
 const UserState = create<User>()((set) => ({
@@ -16,7 +17,11 @@ const UserState = create<User>()((set) => ({
   set: (info: Info) => set(() => info),
 
   setAuthentication: (value: boolean) =>
-    set((prevState) => ({ ...prevState, isAuthenticated: value })),
+    set((prevState) => ({
+      ...prevState,
+      isAuthenticated: value,
+      isCurrentUser: value,
+    })),
 
   reset: () => set(() => ({ ...initialData })),
 }));
