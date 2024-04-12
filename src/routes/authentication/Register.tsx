@@ -17,7 +17,7 @@ export default function Register() {
       password: password,
       userData: [],
       isAuthenticated: true,
-      isCurrentUser: false,
+      isCurrentUser: true,
     };
     DataStorage.addLoginData(info);
   }
